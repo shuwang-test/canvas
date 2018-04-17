@@ -1,44 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>1.html</title>
     <style>
-        *{
+        * {
             margin: 0;
-            padding: 10px;
+            padding: 0;
         }
-        body{
+
+        body {
+            padding: 10px;
             overflow: auto;
         }
     </style>
 </head>
-<body>
-    <canvas id="canvas" width="325000px" height="150px">
 
-    </canvas>
+<body>
+    <!-- <canvas id="canvas" width="32500px" height="150px">
+
+    </canvas> -->
 </body>
 <script>
-    var canvas = document.getElementById('canvas')
-    var context = canvas.getContext('2d')
-    context.strokeStyle="#ccc";
-    context.lineWidth =1
-   for(let i = 0; i < 12*100; i++){
-    context.strokeRect(14*30*i,0,14*30,40)
-    context.font="16px Arial";
-    let text =(2016+i)+'年4月'
-    let textWidth = context.measureText(text).width
-    let left = (14*30-textWidth)/2
-    context.fillText(text,left+14*30*i,25);
-   }
-   context.font="12px Arial";
-   var text = 1
-   var width = context.measureText(text).width
-   console.log(width)
-   context.strokeRect(0,40,width+2,width+2)
-   context.fillText(text,1,40+2+width);
+    var getDayList = function (dayLength) {
+        var dayList = []
+        for (var i = 0; i < dayLength; i++) {
+            dayList[i] = i + 1
+        }
+        return dayList
+    }
+    var createCanvas = function () {
+        var canvas = document.createElement('canvas')
+        canvas.width = 620
+        canvas.height = 60
+        var context = canvas.getContext('2d')
+        context.strokeStyle = "#ccc";
+        context.lineWidth = 1
+        var dayList = getDayList(31)
+        context.font = "12px Arial";
+        var aDayWidth = 20
+        for (var i = 0; i < dayList.length; i++) {
+            var text = dayList[i]
+            var width = context.measureText(text).width
+            var height = 20
+            var left = (aDayWidth - width) / 2
+            context.strokeRect(aDayWidth * i, 40, aDayWidth, height)
+            context.fillText(text, left + aDayWidth * i, height / 2 + 5 + 40);
+        }
+        var aMonthWidth = aDayWidth * dayList.length
+        console.log(aMonthWidth)
+        context.strokeRect(0, 0, aMonthWidth, 40)
+        context.font = "16px Arial";
+        var text = (2016 + i) + '年4月'
+        var textWidth = context.measureText(text).width
+        var left = (aMonthWidth - textWidth) / 2
+        context.fillText(text, left, 25);
+        document.body.appendChild(canvas)
+    }
+    createCanvas()
+    for (var i = 0; i < 100; i++) {
+        createCanvas()
+    }
 
 </script>
+
 </html>
